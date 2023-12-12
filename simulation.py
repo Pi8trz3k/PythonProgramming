@@ -105,46 +105,63 @@ def get_sheep_position_list():
 
     return position_list
 
-# def write_to_json(round_number):
-#
-#     with open('pos.json', 'a') as json_file:
-#         json_file.write('{{'
-#                         '\n\t"round_no": {round_no},'
-#                         '\n\t"wolf_pos": {wolf_pos},'
-#                         '\n\t"sheep_pos": {sheep_pos}'
-#                         '\n}}\n'
-#         .format(
-#             round_no=round_number,
-#             wolf_pos=json.dumps(wolf.to_dict()),
-#             sheep_pos=json.dumps(get_sheep_position_list())
-#         ))
-
 def delete_last_character():
     with open('pos.json', 'rb+') as fh:
         fh.seek(-1, 2)
         fh.truncate()
 
-def write_to_json(round_number, data_list):
+def write_to_json(round_number):
+
     if exists('pos.json'):
         if round_number == 1:
             delete_last_character()
             with open('pos.json', 'a') as json_file:
-                json_file.write(',\n')
-                json.dump(data_list, json_file)
-                json_file.write(',\n')
+                json_file.write(',{{'
+                                '\n\t"round_no": {round_no},'
+                                '\n\t"wolf_pos": {wolf_pos},'
+                                '\n\t"sheep_pos": {sheep_pos}'
+                                '\n}},\n'
+                .format(
+                    round_no=round_number,
+                    wolf_pos=json.dumps(wolf.to_dict()),
+                    sheep_pos=json.dumps(get_sheep_position_list())
+                ))
         elif round_number == 50:
             with open('pos.json', 'a') as json_file:
-                json.dump(data_list, json_file)
-                json_file.write(']')
+                json_file.write('{{'
+                                '\n\t"round_no": {round_no},'
+                                '\n\t"wolf_pos": {wolf_pos},'
+                                '\n\t"sheep_pos": {sheep_pos}'
+                                '\n}}]'
+                .format(
+                    round_no=round_number,
+                    wolf_pos=json.dumps(wolf.to_dict()),
+                    sheep_pos=json.dumps(get_sheep_position_list())
+                ))
         else:
             with open('pos.json', 'a') as json_file:
-                json.dump(data_list, json_file)
-                json_file.write(',\n')
+                json_file.write('{{'
+                                '\n\t"round_no": {round_no},'
+                                '\n\t"wolf_pos": {wolf_pos},'
+                                '\n\t"sheep_pos": {sheep_pos}'
+                                '\n}},\n'
+                .format(
+                    round_no=round_number,
+                    wolf_pos=json.dumps(wolf.to_dict()),
+                    sheep_pos=json.dumps(get_sheep_position_list())
+                ))
     else:
         with open('pos.json', 'a') as json_file:
-            json_file.write('[\n')
-            json.dump(data_list, json_file)
-            json_file.write(',\n')
+            json_file.write('[{{'
+                            '\n\t"round_no": {round_no},'
+                            '\n\t"wolf_pos": {wolf_pos},'
+                            '\n\t"sheep_pos": {sheep_pos}'
+                            '\n}},\n'
+            .format(
+                round_no=round_number,
+                wolf_pos=json.dumps(wolf.to_dict()),
+                sheep_pos=json.dumps(get_sheep_position_list())
+            ))
 
 def game():
     is_chasing = False
@@ -207,7 +224,7 @@ def game():
             'sheep_pos': get_sheep_position_list()
         }
 
-        write_to_json(round_number + 1, data_dict)
+        write_to_json(round_number + 1)
 
         # write_to_json(round_number + 1)
         write_to_csv(round_number + 1, number_of_sheep_alive())
