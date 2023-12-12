@@ -25,7 +25,7 @@ def get_the_closest_sheep():
     actual_the_closest_sheep = None
     sheep_number = None
 
-    # znajdowanie 1 owcy która jest zywa - bo po iteracjach pierwsza czy druga moze juz byc martwa
+    # find 1 sheep that's alive - first or second sheep after few round can be dead
     for i in range(len(herd_of_sheep)):
         if herd_of_sheep[i].is_alive():
             distance = get_distance(herd_of_sheep[i], wolf)
@@ -33,7 +33,7 @@ def get_the_closest_sheep():
             sheep_number = i
             break
 
-    # przejscie po stadzie i jesli dana owca jest zywa to obliczenie dystansu
+    # goind through herd and if sheep is alive - count distance
     for i in range(len(herd_of_sheep)):
         if herd_of_sheep[i].is_alive():
             current_distance = get_distance(herd_of_sheep[i], wolf)
@@ -55,14 +55,12 @@ def set_new_position(wolff, sheep):
     wolf_x, wolf_y = wolff.get_x(), wolff.get_y()
     sheep_x, sheep_y = sheep.get_x(), sheep.get_y()
 
-    # Calculate distances for both incrementing and decrementing each coordinate
     distance_increment_x = ((wolf_x + 1) - sheep_x) ** 2 + (wolf_y - sheep_y) ** 2
     distance_decrement_x = ((wolf_x - 1) - sheep_x) ** 2 + (wolf_y - sheep_y) ** 2
 
     distance_increment_y = (wolf_x - sheep_x) ** 2 + ((wolf_y + 1) - sheep_y) ** 2
     distance_decrement_y = (wolf_x - sheep_x) ** 2 + ((wolf_y - 1) - sheep_y) ** 2
 
-    # Find the minimum distance and corresponding coordinate
     min_distance = min(distance_increment_x, distance_decrement_x,
                        distance_increment_y, distance_decrement_y)
 
@@ -167,10 +165,9 @@ def game():
     is_chasing = False
     eaten = False
     the_closest_sheep = None
-    sheep_number = None
+    the_closest_sheep_sheep_number = None
 
     for round_number in range(MAXIMUM_NUMBER_OF_ROUNDS):
-        # FIRST STAGE - SHEEP ARE MOVING
         move_sheep()
 
         if is_chasing:
@@ -188,8 +185,7 @@ def game():
             else:
                 set_new_position(wolf, the_closest_sheep)
         else:
-            # GETTING THE CLOSEST SHEEP TO THE WOLF, AND ITS NUMBER
-            the_closest_sheep, sheep_number = get_the_closest_sheep()
+            the_closest_sheep, the_closest_sheep_sheep_number = get_the_closest_sheep()
 
             if is_within_range_of_attack(the_closest_sheep, wolf):
                 wolf.set_x(the_closest_sheep.get_x())
@@ -213,25 +209,13 @@ def game():
             print("Sheep with number", the_closest_sheep.get_sequence_number() , "was eaten")
             eaten = False
 
+        write_to_json(round_number + 1)
+        write_to_csv(round_number + 1, number_of_sheep_alive())
+
         if number_of_sheep_alive() == 0:
             print("Game ended, every sheep has been eaten")
             break
 
         print()
 
-        data_dict = {
-            'wolf_pos': wolf.to_dict(),
-            'sheep_pos': get_sheep_position_list()
-        }
-
-        write_to_json(round_number + 1)
-
-        # write_to_json(round_number + 1)
-        write_to_csv(round_number + 1, number_of_sheep_alive())
-
 game()
-
-# with open('pos.json', 'rb+') as fh:
-#     fh.seek(-1, 2)
-#     fh.truncate()
-

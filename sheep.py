@@ -9,16 +9,11 @@ class Sheep(so.SimulationObjects):
 
     def choose_direction(self):
         """
-        Method returns direction in which sheep will move
-
         Values:
         1 - up (north)
         2 - right (east)
         3 - down (south)
         4 - left (west)
-
-        :return:
-            int: Number which indicates what direction will be chosen
         """
         return random.randint(1, 4)
 
