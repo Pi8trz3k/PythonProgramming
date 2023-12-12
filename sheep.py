@@ -2,8 +2,10 @@ import random
 import simulation_objects as so
 
 class Sheep(so.SimulationObjects):
-    def __init__(self):
+    def __init__(self, sequence_number):
         super().__init__(round(random.uniform(-10.0, 10.0), 1), round(random.uniform(-10.0, 10.0), 1), 0.5)
+        self.__sequence_number = sequence_number
+        self.__is_alive = True
 
     def choose_direction(self):
         """
@@ -32,3 +34,15 @@ class Sheep(so.SimulationObjects):
                 self.decrement_y_by_distance()
             case 4:
                 self.decrement_x_by_distance()
+
+    def get_sequence_number(self):
+        return self.__sequence_number
+
+    def set_sequence_number(self, new_sequence_number):
+        self.__sequence_number = new_sequence_number
+
+    def is_alive(self):
+        return self.__is_alive
+
+    def set_is_not_alive(self):
+        self.__is_alive = False
