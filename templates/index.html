@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Irises</title>
+</head>
+<body>
+    <h1>Irises</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Sepal length</th>
+            <th>Sepal width</th>
+            <th>Petal length</th>
+            <th>Petal width</th>
+            <th>Iris class</th>
+            <th>Delete</th>
+        </tr>
+        {% for iris in irises %}
+            <tr>
+                <td>{{ iris.id }}</td>
+                <td>{{ iris.sepal_length }}</td>
+                <td>{{ iris.sepal_width }}</td>
+                <td>{{ iris.petal_length }}</td>
+                <td>{{ iris.petal_width }}</td>
+                <td>{{ iris.iris_class }}</td>
+                <td>
+                    <form action="/delete/{{ iris.id }}" method="post">
+{#                        {{ form.csrf_token }}#}
+                        <button type="submit"></button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    <a href="{{ url_for('add') }}">Add iris</a>
+</body>
+</html>

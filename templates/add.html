@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add iris</title>
+</head>
+<body>
+    <h1>Add iris</h1>
+    <form action="{{ url_for('add') }}" method="post">
+{#        {{ form.csrf_token }}#}
+        <label for="sepal_length">Sepal length:</label>
+        <input name="sepal_length"><br>
+
+        <label for="sepal_width">Sepal width:</label>
+        <input name="sepal_width"><br>
+
+        <label for="petal_length">Petal length:</label>
+        <input name="petal_length"><br>
+
+        <label for="petal_width">Petal width:</label>
+        <input name="petal_width"><br>
+
+        <label for="iris_class">Iris class:</label>
+        <input name="iris_class"><br>
+
+        <button type="submit">Add iris</button>
+    </form>
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>
