@@ -3,6 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <title>Irises</title>
+    <style>
+    button {
+            padding: 8px 12px;
+            background-color: red;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
     <h1>Irises</h1>
@@ -26,7 +36,6 @@
                 <td>{{ iris.iris_class }}</td>
                 <td>
                     <form action="/delete/{{ iris.id }}" method="post">
-{#                        {{ form.csrf_token }}#}
                         <button type="submit"></button>
                     </form>
                 </td>
